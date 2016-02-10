@@ -1,6 +1,8 @@
 # Security Analytic Cyber-Attack Visualization
-Security Analytic (SA) Cyber-Attack Visualization is a prototype project created for the RSA Security Analytic security tool to provide an alternative view for users to perform cyber-attack investigations.
+Security Analytic (SA) Cyber-Attack Visualization was created as a prototype project for the RSA Security Analytic tool to provide users an alternative view to perform cyber-attack investigations.
 
-The prototype was created using [Cesium](https://www.cesium.org) for the visualization envrionment and functions (Globe, Skybox, animated attack polylines, etc) as well as [Bing Maps](https://www.bingmapsportal.com/) as its basemap provider. 
+## Technologies Used
+The prototype utilizes [Cesium](https://www.cesium.org) for the visualization envrionment and functions as well as [Bing Maps](https://www.bingmapsportal.com/) for the basemap.
 
-In order for the prototype visualization to function properly, you will need to have a <b>web server</b> enabled.
+With Cesium, the visualization has the capabilities to do the following:
+  1. 
