@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<?php include($_SERVER["DOCUMENT_ROOT"] . "/project-data/config.php"); ?>
+	  	<meta http-equiv="refresh" content= "<?php echo $reloadTime ?>" >
+
+		<!-- Use correct character set. -->
+	  	<meta charset="utf-8">
+	  
+		<!-- Tell IE to use the latest, best version. -->
+	  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  
+		<!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+	  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	    
+		<title>RSA INTEL Cyber-Ocular</title>
+
+	  	<script src="../Build/Cesium/Cesium.js"></script>
+	  	<script type="text/javascript" src="/Cesium/ThirdParty/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="/Cesium/ThirdParty/countdown.js"></script>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/toolbar/bootstrap-table-toolbar.min.js">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+		<!-- Styles -->
+		<style>
+		@import url(../Build/Cesium/Widgets/widgets.css);
+	      	
+		html{
+			height: 100%;
+		} 
+
+		#cesiumContainer {
+		  	width: 100%; 
+			height: 100%; 
+			margin: 0; 
+			padding: 0; 
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+	      	}
+
+		.cesium-infoBox .cesium-infoBox-camera,.cesium-infoBox .cesium-infoBox-close, {
+			background:#3d3d3d;
+		}
+
+		.cesium-infoBox {
+			width: 30%;
+			max-width: none;
+		}
+
+		.cesium-infoBox-visible {
+			height:85%;
+			height:calc(85% - 34px);
+			top:40;
+		}
+
+		iframe.cesium-infoBox-iframe {
+			height:90%;
+		}
+
+		#infobox {
+		    width: 395px;
+		    height: 305px;
+		    position: absolute;
+		    top: 44px;
+		    left: 0;
+		    max-width: 450px;
+		    background: rgba(38, 38, 38, 0.75);
+		    color: #FFFFFF;
+		    border: 1px solid #444;
+		    border-right: none;
+		    border-top-right-radius: 7px;
+		    border-bottom-right-radius: 7px;
+		    box-shadow: 0 0 10px 1px #000;
+		}
+
+		.refresh{
+			position: aboslute;
+			top: 8px; left 10px;
+		}
+
+		.noselect {
+	    		-webkit-touch-callout: none;
+	    		-webkit-user-select: none;
+	    		-khtml-user-select: none;
+	    		-moz-user-select: none;
+	    		-ms-user-select: none;
+	    		user-select: none;
+		}
+
+		.timer {
+			position:relative;
+			margin: 15px auto;
+			width: 500px;
+		}
+
+		h1 {
+			font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+			font-size: 15px;
+			text-align: center;
+			text-transform: uppercase;
+			text-rendering: optimizeLegibility;
+			margin: 0 auto;
+			width: 400px;
+		}
+
+		h1.deepshadow {
+			color: #e0dfdc;
+			letter-spacing: .1em;
+			text-shadow: 0 -1px 0 #ffffff, 0 1px 0 #2e2e2e, 0 2px 0 #2c2c2c, 0 3px 0 #2a2a2a, 0 4px 0 #282828, 0 5px 0 #262626, 0 6px 0 #242424, 0 7px 0 #222222, 0 8px 0 #202020, 0 9px 0 #1e1e1e, 0 10px 0 #1c1c1c, 0 11px 0 #1a1a1a, 0 12px 0 #181818, 0 13px 0 #161616, 0 14px 0 #141414, 0 15px 0 #121212, 0 22px 30px rgba(0, 0, 0, 0.9);
+		}
+
+		table.dataTable.display tbody tr.odd{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd.selected{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even.selected{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.hover tbody tr:hover,table.dataTable.display tbody tr:hover{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.hover tbody tr:hover.selected,table.dataTable.display tbody tr:hover.selected{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even>.sorting_1{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even>.sorting_2{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even>.sorting_3{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even.selected>.sorting_1{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.even.selected>.sorting_2{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd>.sorting_1{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd>.sorting_2{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd>.sorting_3{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd.selected>.sorting_1{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		table.dataTable.display tbody tr.odd.selected>.sorting_2{
+			background: rgba(38, 38, 38, 0.75)
+		}
+
+		.toolbar-left {
+		    display: block;
+		    position: absolute;
+		    top: 5px;
+		    left: 5px;
+		}
+
+		.toolbar-bottom-right{
+			position: absolute;
+			bottom: 25px;
+			right: 5px;
+		}
+
+		#HelpContainer {
+			zoom: 0.9;
+			-moz-transform: scale(0.9);
+			-moz-transform-origin: 0.0;
+			width: 930px;
+			height: 505px;
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			z-index: 100000000000;
+			background: rgba(38, 38, 38, 0.95);
+			color: #edffff;
+			border: 1px solid #444;
+			border-right: none;
+			border-top-left-radius: 7px;
+			border-bottom-left-radius: 7px;
+			border-top-right-radius: 7px;
+			border-bottom-right-radius: 7px;
+			box-shadow: 0 0 10px 1px #000;
+		}
+
+		#helpcontent {
+		    text-align: center;
+		    font-size: 15px;
+		    font-family: 'divvyfont';
+		    opacity: 1;
+		    margin-left: 30px;
+		    margin-right: 30px;
+		}
+	  	</style>
+
+		<!-- BootStrap JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/toolbar/bootstrap-table-toolbar.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+	<body onload="startRotation()">
+
+		<!-- DO NOT REMOVE THIS -->
+		<!-- YOU NEED THIS CONTAINER, OTHERWISE THE ENTIRE PROJECT PROGRAMMED ON CESIUM CANNOT BE SEEN -->	
+		<div id="cesiumContainer" class="noselect"></div>
+			
+		<div id="HelpContainer" style="">
+			<button id="Close" class="cesium-button" style="position: absolute; top:0; right:0;">Close</button>
+			<div id="helpcontent" align="center">
+				<br></br>
+				<p class="helpc" style="font-size:24px;"><strong>Welcome to Security Analytic Cyber Attack Visualization</strong></p>
+				<br>
+				<p class="helpc">RSA's Security Analytic Cyber Attack Visualization provides an alternative view for both technical and non-technical users to perform investigation on a common platform that is comprehensible for easier interpretation and analyzation of attacks.</p>
+				<br>
+				<table style="width: 100%">
+				<tbody>
+					<tr>
+						<td><img src="/Pictures/img1.png" style="border-top-left-radius: 7px;border-bottom-left-radius: 7px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;width:260px;height:200px"> </td>
+						<td><img src="/Pictures/img3.png" style="border-top-left-radius: 7px;border-bottom-left-radius: 7px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;width:260px;height:200px"> </td>
+						<td><img src="/Pictures/img4.png" style="border-top-left-radius: 7px;border-bottom-left-radius: 7px;border-top-right-radius: 7px;border-bottom-right-radius: 7px;width:260px;height:200px"> </td>
+					</tr>
+					<tr>
+						<td style="width:33%;padding-left: 12px;padding-right: 12px;font-size:12px"><br>You can perform basic investigation of an attack simply by clicking onto the polyline entity.</td>
+                    				<td style="width:33%;padding-left: 12px;padding-right: 12px;font-size:12px"><br>To help you with the investigation, you can select the meta-keys that you wish to display.</td>
+						<td style="width:33%;padding-left: 12px;padding-right: 12px;font-size:12px"><br>Clicking on the alert id will redirect you to RSA Security Analytic, where further investigations can be performed.</td>
+                   			</tr>
+                		</tbody>
+                		</table>
+            		</div>
+        	</div>
+
+		<div class="toolbar-left noselect">
+	  		<button type="button" class="cesium-button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" title="Summary of attacks" data-target="#infobox">Attack Data</button>
+
+			<button type="button" class="cesium-button" onclick = "refreshIframe();" data-toggle="tooltip" data-placement="bottom" title="Please click me if InfoBox of an attack polyline entity does not work properly!">Reload InfoBox</button>
+
+			<button type="button" class="cesium-button changeText">Stop Rotation</button> 
+
+			<!-- ATTACK DATA CONTAINER -->
+			<div id = "infobox" class="collapse">
+				<table id="attacks" class="display" cellspacing="0" width="100%">
+					<thead>
+		    				<tr>
+							<th>Time</th>
+		        				<th>Attacker</th>
+		        				<th>Target</th>
+		    				</tr>
+					</thead>
+					<tfoot>
+		    				<tr>
+							<th>Time</th>
+		        				<th>Attacker</th>
+		        				<th>Target</th>
+		    				</tr>
+					</tfoot>
+	    			</table>
+			</div>
+		</div>
+
+		<div class="toolbar-bottom-right noselect">
+			<img src = "/Pictures/rsa.png" width="100" height="70">
+		</div>
+
+		<div class ="timer"><h1 class='deepshadow'>Visualization refreshing in <span id="time"></span> minutes</h1></div>
+
+		<script>
+
+			/*
+			*	Variables from config.php
+			*/
+
+				var SAIP  = "<?php echo $SAIP; ?>";
+				var DevID = "<?php echo $DevID; ?>"; 
+				var TimeRange = "<?php echo $TimeRange; ?>";
+				var DataWithinTimeISO = "<?php echo $DataWithinTimeISO;?>";
+				var reloadTime = "<?php echo $reloadTime; ?>";
+
+			/* 
+			*	Map Provider by Bing
+			*/
+
+				var bing = new Cesium.BingMapsImageryProvider({
+		    			url : '//dev.virtualearth.net',
+		    			key : 'AnC0Sb1KY7bWnKdl7W8AQch2_mRWAN0Omv3TgK7r1ood2qguba7JS-WdeXOMGKFm',
+		    			mapStyle : Cesium.BingMapsStyle.AERIAL_WITH_LABELS
+				});
+						
+			
+			/* 
+			*	VIEWER OPTIONS
+			*/
+			
+		    var viewer = new Cesium.Viewer('cesiumContainer', {
+					imageryProvider: bing,
+					fullscreenButton: false,
+					baseLayerPicker: false
+				});
+
+		 		var entities = viewer.entities;
+				var scene = viewer.scene;
+
+			//	ALLOW JAVASCRIPTS TO BE EXECUTED IN IFRAME
+
+				viewer.infoBox.frame.setAttribute('sandbox', 'allow-same-origin allow-popups allow-forms allow-scripts allow-top-navigation');
+				viewer.infoBox.frame.setAttribute('name', 'Data');
+
+				//viewer.scene.globe.enableLighting = true;
+
+			/* 
+			*	PARSE JSON DATA
+			*/
+
+				Cesium.loadJson('/project-data/pass.php').then(function(jsonData){
+					for(var i = 0; i < jsonData.length; i++){
+						var alert = jsonData[i]["alert"];
+						var alertId = jsonData[i]["alert.id"];
+						var groupId = jsonData[i]["group"];
+						var hostnameAlias = jsonData[i]["alias.host"];
+						var aliasIP = jsonData[i]["alias.ip"];
+						var ipProto = jsonData[i]["ip.proto"];
+						var tcpFlags = jsonData[i]["tcp.flags"];
+						var attachment = jsonData[i]["attachment"];
+						var service = jsonData[i]["service"];			
+
+						var timestamp = jsonData[i]["time"];
+							// Convert timestamp to readable date and time
+							var date = new Date(timestamp*1000);
+							var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+			
+						// Source's Meta-Keys
+						var sourceLatitude = jsonData[i]["latdec.src"];
+						var sourceLongitude = jsonData[i]["longdec.src"];
+						var sourceCountry = jsonData[i]["country.src"];
+						var sourceCity = jsonData[i]["city.src"];
+			
+						var sourceOrg = jsonData[i]["org.src"];
+						var sourceDomain = jsonData[i]["domain.src"];
+						var sourceEmail = jsonData[i]["email.src"];
+			
+						var sourceIP = jsonData[i]["ip.src"];
+						var sourcePort = jsonData[i]["ip.srcport"];
+						var sourceTcpP = jsonData[i]["tcp.srcport"];
+						var sourceUdpP = jsonData[i]["udp.srcport"];
+			
+						var sourceUser = jsonData[i]["user.src"];
+						var sourceADD = jsonData[i]["ad.domain.src"];
+						var sourceADU = jsonData[i]["ad.username.src"];
+						var sourceADC = jsonData[i]["ad.computer.src"];
+			
+						// Destination's Meta-Keys
+						var destLatitude = jsonData[i]["latdec.dst"];
+						var destLongitude = jsonData[i]["longdec.dst"];
+						var destCountry = jsonData[i]["country.dst"];
+						var destCity = jsonData[i]["city.dst"];
+			
+						var destOrg = jsonData[i]["org.dst"];
+						var destDomain = jsonData[i]["domain.dst"];
+						var destEmail = jsonData[i]["email.dst"];
+			
+						var destIP = jsonData[i]["ip.dst"];
+						var destPort = jsonData[i]["ip.dstport"];
+						var destTcpP = jsonData[i]["tcp.dstport"];
+						var destUdpP = jsonData[i]["udp.dstport"];
+			
+						var destUser = jsonData[i]["user.dst"];
+						var destADD = jsonData[i]["ad.domain.dst"];
+						var destADU = jsonData[i]["ad.username.dst"];
+						var destADC = jsonData[i]["ad.computer.dst"];	
+
+			/* 
+			*	ATTACK ANIMATION SETTINGS
+			*/
+					// Duration of the attack animation in seconds
+  					var duration = 8;
+
+					// Start animation based on attack timestamp
+  					var start = Cesium.JulianDate.fromDate(new Date(date));
+  					var stop = Cesium.JulianDate.addSeconds(start, duration, new Cesium.JulianDate());
+					
+			/* 
+			*	DEMO TIMELINE SETTINGS 
+			*	THIS IS A SETTING FOR THE DEMO DATA - RestData.json
+			*	To enable it, simply remove the '/*' & '* /' from the codes below and add them to the codes under YOUR TIMELINE SETTINGS
+			*/
+
+  					viewer.clock.startTime = Cesium.JulianDate.fromIso8601("2014-08-29T19:29:00Z");  
+  					viewer.clock.currentTime =Cesium.JulianDate.fromIso8601("2014-08-29T19:29:00Z");  
+      					viewer.clock.multiplier = 2;
+      					viewer.timeline.zoomTo(start, stop);
+				
+			/* 
+			*	YOUR TIMELINE SETTINGS
+			*	APPLICABLE IF YOU ARE USING YOUR OWN DATA
+			*	To enable it, simply remove the '/*' & '* /' from the codes below and add them to the codes under DEMO TIMELINE SETTINGS
+			*/
+			
+					/*	
+						viewer.clock.startTime = Cesium.JulianDate.fromIso8601(DataWithinTimeISO);  
+						viewer.clock.currentTime =Cesium.JulianDate.fromIso8601(DataWithinTimeISO);  
+	    					viewer.clock.multiplier = 2;
+	    					viewer.timeline.zoomTo(start, stop);
+					*/
+
+			/*
+			*	SUMMARY OF ATTACK OCCURRING
+			*	SHOWS ONLY COUNTRIES AND TIME
+			*/
+
+   					var alltable = $('#attacks').DataTable( {
+						"pageLength" : 4,
+						"lengthChange": false,
+						"info"	     : false,
+						"retrieve"	: true,
+						"responsive" : true,
+						"searching"  : false,
+						"ajax": {
+	    						"url": "/project-data/pass.php",
+	   				 		  "dataSrc": function (json) {
+      								var return_data = new Array();
+      								for(var i=0;i< json.length; i++){
+      									var timestamp = json[i]["time"];
+      									var date = new Date(timestamp*1000);
+      									var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+      									return_data.push({
+      	  									'time': iso[1] + ' ' + iso[2],
+      	  									'sourceCountry'  : json[i]["country.src"],
+      	  									'destCountry'	: json[i]["country.dst"]
+      									})
+      								}
+      								return return_data;
+							    }
+						},
+						"columns": [
+	    						{ "data": 'time' },
+	    						{ "data": 'sourceCountry' },
+	   	 					{ "data": 'destCountry' }
+						],
+						"order" : [[0, "desc" ]]
+   					 });
+
+			/* 
+			*	COUNTRY COORDINATES
+			*	startPoint - ATTACKER
+			*	finalPoint - TARGET
+			*/
+
+  					var startPoint = Cesium.Cartographic.fromDegrees(sourceLongitude, sourceLatitude);
+  					var finalPoint = Cesium.Cartographic.fromDegrees(destLongitude, destLatitude);
+  
+  					// Calculate the midPoint to form the arc out of the earth surface
+  					var geodesic = new Cesium.EllipsoidGeodesic(startPoint, finalPoint);
+  					var midPoint = geodesic.interpolateUsingFraction(0.5, new Cesium.Cartographic());
+  
+  					// Different heights for each attack polyline (1000000 ~ 5000000)
+  					var rand = [Math.floor((Math.random() * 700000) + 500000)];
+  					midPoint.height = rand;
+  
+  					var positions = computePositions(startPoint, midPoint, finalPoint, start, duration);
+  			
+			/* 
+			*	CREATING ENTITIES
+			*/
+
+				/* 
+				*	ENTITY 1:
+				*	CREATES THE MAIN ATTACK ANIMATION LINE FROM SOURCE TO DESTINATION COUNTRIES
+				*/
+
+  					var target = viewer.entities.add({
+  						name: (sourceCountry + " - " + destCountry),
+  						position: positions,
+  						orientation: new Cesium.VelocityOrientationProperty(positions),
+  						path: {
+  							resolution: 1,
+  							material: new Cesium.PolylineGlowMaterialProperty({
+  								glowPower: 0.1,
+  								color: Cesium.Color.RED
+  							}),
+  							width: 4,
+  							trailTime: 1*24*60*60,
+  							leadTime: 0
+  						},
+  						description: "<h3><center>Click onto 'RELOAD INFOBOX' button located at the top left</center></h3><br></br>" +
+  					"<div data-role='main' class='ui-content'>" + 
+  						"<table data-role='table' id='attack-main' class='ui-responsive table-stroke'>" +
+  							"<thead>" + 
+  								"<tr>" + 
+  									"<th>ALERT ID</th>" + 
+  									"<th>TIME</th>" +
+  									"<th>GROUP</th>" + 
+  								"</tr>" +
+  							"</thead>" + 
+  							"<tbody>" + 
+  								"<tr>" + 
+  									"<td><a href='https://" + SAIP + "/investigation/" + DevID + "/navigate/query/alert.id=" + alertId + "/date/" + iso[0] + "Z/" + iso[0] + "Z' target='_blank'>" + alertId + "</a></td>" + 
+  									"<td>" + iso[1] + ', ' + iso[2] + "</td>" +
+  									"<td>" + groupId + "</td>" +
+  								"</tr>" +
+  							"</tbody>" +
+  						"</table>" +
+  					"</div>" + "<br></br>" +
+  					"<div data-role='header'>" + 
+  						"<h1>ATTACK DATA</h1>" +
+  					"</div>" +
+  					"<div data-role='main' class='ui-content'>" + 
+  						"<table data-role='table' id='attack-noCat' data-mode ='columntoggle' class='ui-responsive table-stroke'>" +
+  							"<thead>" + 
+  								"<tr>" + 
+  									"<th data-priority='2'>IP PROTOCOL</th>" +
+  									"<th data-priority='4'>HOSTNAME ALIAS</th>" + 
+  									"<th data-priority='4'>ALIAS IP</th>" + 
+  									"<th data-priority='4'>TCP FLAGS</th>" + 
+  									"<th data-priority='4'>ATTACHMENT</th>" + 
+  								"</tr>" +
+  							"</thead>" + 
+  							"<tbody>" + 
+  								"<tr>" + 
+  
+  									"<td>" + ipProto + "</td>" +
+  									"<td>" + hostnameAlias + "</td>" + 
+  									"<td>" + aliasIP + "</td>" +
+  									"<td>" + tcpFlags + "</td>" +
+  									"<td>" + attachment + "</td>" +
+  								"</tr>" +
+  							"</tbody>" +
+  						"</table>" +
+  					"</div>" + "<br></br>" +
+  					"<div data-role='header'>" + 
+  						"<h1>SOURCE DATA</h1>" +
+  					"</div>" +
+  					"<div data-role='SourceMain' class='ui-content'>" + 
+  						"<table data-role='table' id='source-main' data-mode='columntoggle' class='ui-responsive table-stroke'>" +
+  							"<thead>" + 
+  								"<tr>" + 
+  									"<th>LOCATION</th>" + 
+  									"<th data-priority='1'>IP ADDRESS</th>" +
+  									"<th data-priority='4'>COORDINATES</th>" + 
+  								"</tr>" +
+  							"</thead>" + 
+  							"<tbody>" + 
+  								"<tr>" + 
+  									"<td>" + sourceCountry + ', ' + sourceCity + "</td>" + 
+  									"<td>" + sourceIP + "</td>" +
+  									"<td>" + sourceLatitude + ', ' + sourceLongitude + "</td>" +
+  								"</tr>" +
+  							"</tbody>" +
+  						"</table>" + 
+  					"</div>" + "<br></br>" + 
+  					"<div data-role='header'>" + 
+  						"<h1>TARGET DATA</h1>" +
+  					"</div>" + 
+  					"<div data-role='TargetMain' class='ui-content'>" + 
+  						"<table data-role='table' id='dest-main' data-mode='columntoggle' class='ui-responsive table-stroke'>" +
+  							"<thead>" + 
+  								"<tr>" + 
+  									"<th>LOCATION</th>" + 
+  									"<th data-priority='1'>IP ADDRESS</th>" +
+  									"<th data-priority='4'>COORDINATES</th>" + 
+  								"</tr>" +
+  							"</thead>" + 
+  							"<tbody>" + 
+  								"<tr>" + 
+  									"<td>" + destCountry + ', ' + destCity + "</td>" + 
+  									"<td>" + destIP + "</td>" +
+  									"<td>" + destLatitude + ', ' + destLongitude + "</td>" +
+  								"</tr>" +
+  							"</tbody>" +
+  						"</table>" + 
+  					"</div>"
+  					});
+  
+  					target.position.setInterpolationOptions({
+  						interpolationDegree: 5,
+  						interpolationAlgorithm: Cesium.LagrangePolynomialApproximation
+  					});
+
+				/* 
+				*	ENTITY 2:
+				*	CREATES A MARKER ON SOURCE COUNTRIES
+				*/
+
+    				var sourcePoint = viewer.entities.add({
+    					name: sourceCountry,
+    					position : Cesium.Cartesian3.fromDegrees(sourceLongitude, sourceLatitude),
+    					point : {
+        						pixelSize : 10,
+        						color : new Cesium.CallbackProperty(
+    							function(time, result){
+    								return Cesium.Color.fromAlpha(Cesium.Color.RED,
+    								(new Date(time).getTime() % 1000) / 1000,
+    								result);
+    							}, false),
+    						outlineColor: Cesium.Color.BLACK,
+    						outlineWidth: 2
+    					},
+    					description: '<p><strong>COUNTRY: </strong>' + sourceCountry + '</p>' + '<p><strong>CITY: </strong>' + sourceCity + '</p>'
+  					});
+
+				/* 
+				*	ENTITY 3:
+				*	CREATES A MARKER ON DESTINATION COUNTRIES
+				*/
+
+  					var destPoint = viewer.entities.add({
+  						name: destCountry,
+  						position : Cesium.Cartesian3.fromDegrees(destLongitude, destLatitude),
+  						point : {
+  	    						pixelSize : 10,
+  	    						color : new Cesium.CallbackProperty(
+  								function(time, result){
+  									return Cesium.Color.fromAlpha(Cesium.Color.YELLOW,
+  									(new Date(time).getTime() % 1000) / 1000,
+  									result);
+  								}, false),
+  							outlineColor: Cesium.Color.BLACK,
+  							outlineWidth: 2
+  						},
+  						description: '<p><strong>COUNTRY: </strong>' + destCountry + '</p>' + '<p><strong>CITY: </strong>' + destCity + '</p>'
+  					});
+  
+      					viewer.trackEntity = target;
+  
+  				} // end of for loop
+  			}); // end of parsing json data
+
+			/* 
+			*	FUNCTION TO HELP CREATE THE MAIN ATTACK ANIMATION LINE
+			*/
+
+				function computePositions(startPoint, midPoint, finalPoint, start, duration){
+					var property = new Cesium.SampledPositionProperty();
+
+					var startPosition = viewer.scene.globe.ellipsoid.cartographicToCartesian(startPoint);
+					property.addSample(start, startPosition);
+			
+					var midTime = Cesium.JulianDate.addSeconds(start, duration/2, new Cesium.JulianDate());
+					var midPosition = viewer.scene.globe.ellipsoid.cartographicToCartesian(midPoint);
+					property.addSample(midTime, midPosition);
+
+					var endTime = Cesium.JulianDate.addSeconds(start, duration, new Cesium.JulianDate());
+					var endPosition = viewer.scene.globe.ellipsoid.cartographicToCartesian(finalPoint);
+					property.addSample(endTime,endPosition);
+			
+					return property;
+				};
+
+			/* 
+			*	FUNCTION TO ROTATE THE GLOBE
+			*/
+
+				function startRotation() {
+					viewer.clock.onTick.addEventListener(rotation);
+				}
+
+				var lastNow = Date.now();
+
+				function rotation(clock) {
+					if (scene.mode == Cesium.SceneMode.SCENE3D){
+						var now = Date.now();
+						var spinRate = 0.05;
+						var delta = (now - lastNow) / 1000;
+						lastNow = now;
+						scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -spinRate * delta);
+					}
+				}
+
+				function stopRotation() {
+					viewer.clock.onTick.removeEventListener(rotation);
+				}
+
+				$(".changeText").click(function(){
+					$(this).text(function(i, v){
+						if (v === 'Start Rotation'){
+							startRotation();
+							return 'Stop Rotation';
+						} else{
+							stopRotation();
+							return 'Start Rotation';
+						}
+					});
+				});
+
+			/* 
+			*	FUNCTION TO RELOAD THE IFRAME
+			*/
+
+				function refreshIframe(){
+					var ifr = document.getElementsByName('Data')[0];
+					ifr.src = ifr.src;
+				}
+
+			/* 
+			*	FUNCTION TO SELECT AN ENTITY
+			*/
+
+				function pickEntity(viewer, windowPosition) {
+	  				var picked = viewer.scene.pick(windowPosition);
+	  				if (defined(picked)) {
+	    					var id = Cesium.defaultValue(picked.id, picked.primitive.id);
+	    					if (id instanceof Cesium.Entity) {
+	      						return id;
+	    					}
+	  				}
+	  				return undefined;
+				};
+
+				function drillPickEntities(viewer, windowPosition) {
+	  				var i;
+	  				var entity;
+	  				var picked;
+	  				var pickedPrimitives = viewer.scene.drillPick(windowPosition);
+	  				var length = pickedPrimitives.length;
+	  				var result = [];
+	  				var hash = {};
+
+	  				for (i = 0; i < length; i++) {
+	    					picked = pickedPrimitives[i];
+	    					entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+	    					if (entity instanceof Cesium.Entity &&
+						!Cesium.defined(hash[entity.id])) {
+	      						result.push(entity);
+	      						hash[entity.id] = true;
+	    					}
+	  				}
+	  				return result;
+				};
+
+			/*	Since the viewer is newly constructed, the iframe is still about:blank.
+			*	This listens for the iframe to change to the Cesium description template, which only happens once at startup.
+			*/	
+
+			//	Inject css and JS files into iframe onload	
+
+				viewer.infoBox.frame.addEventListener('load', function() {
+					var cssLink = document.createElement('link');
+					cssLink.rel = "stylesheet";
+					cssLink.href = Cesium.buildModuleUrl('/Cesium/ThirdParty/jqueryMobile/jquery.mobile-1.4.5.min.css');
+					cssLink.type = "text/css";
+					viewer.infoBox.frame.contentDocument.head.appendChild(cssLink);
+		
+					var script = document.createElement('script');
+					script.src = Cesium.buildModuleUrl('/Cesium/ThirdParty/jquery-1.11.3.min.js');
+					script.type = "text/javascript";
+					viewer.infoBox.frame.contentDocument.head.appendChild(script);
+		
+					var script2 = document.createElement('script');
+					script2.src = Cesium.buildModuleUrl('/Cesium/ThirdParty/jqueryMobile/jquery-resolveissue.js');
+					script2.type= "text/javascript";
+					viewer.infoBox.frame.contentDocument.head.appendChild(script2);
+		
+					var script3 = document.createElement('script');
+					script3.src = Cesium.buildModuleUrl('/Cesium/ThirdParty/jqueryMobile/jquery.mobile-1.4.5.min.js');
+					script3.type= "text/javascript";
+					viewer.infoBox.frame.contentDocument.head.appendChild(script3);
+				}, false);
+
+			/* 
+			*	FUNCTION TO CONTROL NAVIGATION HELP & WELCOME MESSAGE
+			*/
+
+				var helpShown = true;
+				document.getElementsByClassName('cesium-navigationHelpButton-wrapper')[0].addEventListener('click', function() {
+				    document.getElementById('HelpContainer').style.display = '';
+				    setTimeout(function() {
+					helpShown = true;
+				    }, 50);
+
+				}, false);
+
+				document.addEventListener('click', function(e) {
+				    if (helpShown == true) {
+					if (e.toElement.id != 'HelpContainer' && e.toElement.id != 'helpcontent' && e.toElement.className != 'helpc') {
+					    document.getElementById('HelpContainer').style.display = 'none';
+					    helpShown = false;
+					}
+				    }
+				}, false);
+		</script>
+	</body>
+</html>
