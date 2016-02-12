@@ -11,10 +11,10 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
 
 #### Step 1: Set up Virtual Machine
 
-  1. [Download](http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso) the latest version of Centos ISO 
-  2. With a VMware Workstation installed, create a VM with the Centos ISO dvd.
-  3. Install LAMP (Linux, Apache, MySQL & PHP) in the VM. 
-  4. Clone the repository from github with the following command: <br>
+  * [Download](http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1511.iso) the latest version of Centos ISO 
+  * With a VMware Workstation installed, create a VM with the Centos ISO dvd.
+  * Install LAMP (Linux, Apache, MySQL & PHP) in the VM. 
+  * Clone the repository from github with the following command: <br>
   `git clone https://github.com/AdibahShah/SA-Visual.git`
 
 
