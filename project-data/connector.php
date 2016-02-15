@@ -21,7 +21,7 @@
 			echo $dbname." database exists \n";
 		} 
 
-		$query = "SELECT `id` FROM " .$dbtable;
+		$query = "SELECT id FROM " .$dbtable;
 		$result = mysqli_query($con, $query);
 
 		if (empty($result)){
