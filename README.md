@@ -38,13 +38,43 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
   
   * You should be able to see the visualization environment - Globe, Timeline, Skybox. <b>NOTE: At this point, it does not contain any data </b>
 
-#### Step 2: Upload data
+#### Step 2: Upload demo data
 
   * [VM] Open terminal & change directory to /SA-Visual/project-data
   
   * Run the following command: <br>
+  `gedit config.php`
+
+As you are about to upload a demo data, you will only have to configure the following:<br>
+  `	// Variables to connect to MySQL Database` <br>
+	`$dbhost 	= "localhost";`<br>
+	`$dbusername 	= "root";`<br>
+	`$dbpassword 	= "password";`<br>
+	`$dbname 	= "restapi";`<br>
+	`$dbtable	= "attackdata";`<br>
+	`$dbview 	= "RestView";`
+
+  * Next, run the following command: <br>
   `./phpjobs.sh`
+    The database, table & view containing the data will be uploaded.
 
+##### Test
 
+  To check if data has been successfully uploaded into MySQL database, do either of the following:
+  
+  * [Host] Open a web browser and enter the url as such:
+  `<ip-addressOfVM>/project-data/pass.php`
+    The page above should contain a JSON data.
+  
+  OR
 
+  * [Host] Open a web browser and enter the url as such:
+  `<ip-addressOfVM>/phpmyadmin`
+    Search for the database & ensure that both <b>table</b> & <b>view</b> has been created.
+
+#### Step 3: View Visualization
+
+Once the demo data has been successfully uploaded into the database, you are able to visualize it. To do so, simply proceed to the page with the following url: <br>
+  `<ip-addressOfVM>` <br>
+  And click onto 'View Visualization' button
 
