@@ -1,27 +1,26 @@
 <?php
 	include 'config.php';
-
 	/*
 	*	Open connection to MYSQL database
 	*/
-	
-		$con = mysqli_connect ($dbhost, $dbusername, $dbpassword) or die ('Error in connecting: ' . mysqli_error($con));
+
+		$con = mysqli_connect ($dbhost, $dbusername, $dbpassword) or die ('Error connecting: ' . mysqli_error($con));
 
 		$db_selected = mysqli_select_db($con, $dbname);
 
 		if(!$db_selected){
 			$sql = 'CREATE DATABASE '.$dbname.'';
-
 			if (mysqli_query($con, $sql)){
 				echo "Database successfully created\n";
+				$db_selected = mysqli_select_db($con, $dbname);
 			} else {
-				echo 'Error creating database: ' . mysql_error() . "\n";
+				echo 'Error creating database: ' . mysqli_error() . "\n";
 		  	}
 		} else {
 			echo $dbname." database exists \n";
 		} 
-
-		$query = "SELECT id FROM " .$dbtable;
+	
+		$query = "SELECT `id` FROM " .$dbtable;
 		$result = mysqli_query($con, $query);
 
 		if (empty($result)){
@@ -30,17 +29,15 @@
 		} else {
 			echo $dbtable." table exists \n";
 		}
-
+	
 		// Use prepare statement for insert query
 		$st = mysqli_prepare($con, 'INSERT INTO `'.$dbtable.'` (`group`, `type`, `value`) VALUES (?,?,?)');
-
 		// Bind the variables to insert query params
 		mysqli_stmt_bind_param ($st, 'iss', $group, $type, $value);
 
 	/*
 	*	Passing Rest API Data to MYSQL
 	*/
-
 		// Method 1: Demo Data (Final Presentation Purpose)
 		$filename = 'RestData.json';
 
@@ -58,7 +55,6 @@
 	*/
 
 		$resultobj = json_decode ($json, true);
-
 		if(is_array($resultobj) || is_object($resultobj)){
 			foreach ($resultobj as $obj){
 				// Loop through the array
@@ -66,7 +62,6 @@
 					$group = $results['group'];
 					$type = $results['type'];
 					$value = $results['value'];
-
 					mysqli_stmt_execute($st);
 				}
 			}
@@ -78,6 +73,5 @@
 	/*
 	*	Close connection
 	*/
-
 		mysqli_close($con);
 ?>
