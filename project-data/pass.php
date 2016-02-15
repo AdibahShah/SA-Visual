@@ -4,20 +4,19 @@
 	/*
 	*	Connect to database
 	*/
-	
-		$database = mysql_connect($dbhost, $dbusername, $dbpassword);
-	
-		if(!$database){
-			die('Could not connect to database: ' . mysql_error());
-		}
 
-		mysql_select_db($dbname, $database);
-  
-  /*
-  * Requirement: both coordinates for source and destination countries must be present. Otherwise, the alert will be omitted from the visualization
-  */
+		$con = mysqli_connect ($dbhost, $dbusername, $dbpassword) or die ('Error in connecting: ' . mysqli_error($con));
 
-		$result = mysql_query('select * from `'.$dbview.'` WHERE (`latdec.src` is not null and `longdec.src` is not null) AND (`latdec.dst` is not null and `longdec.dst` is not null)', $database);
+	
+		$db_selected = mysqli_select_db($con, $dbname);
+
+	/*
+	*	Create View
+	*/
+	
+		$createView = mysqli_query($con, "CREATE VIEW `".$dbview."` AS SELECT id, `group`, MAX(CASE WHEN (type = 'time') THEN value ELSE NULL END) AS 'time', MAX(CASE WHEN (type = 'ip.src') THEN value ELSE NULL END) AS 'ip.src', MAX(CASE WHEN (type = 'ip.dst') THEN value ELSE NULL END) AS 'ip.dst', MAX(CASE WHEN (type = 'tcp.srcport') THEN value ELSE NULL END) AS 'tcp.srcport', MAX(CASE WHEN (type = 'tcp.dstport') THEN value ELSE NULL END) AS 'tcp.dstport', MAX(CASE WHEN (type = 'streams') THEN value ELSE NULL END) AS streams, MAX(CASE WHEN (type = 'country.dst') THEN value ELSE NULL END) AS 'country.dst', MAX(CASE WHEN (type = 'city.dst') THEN value ELSE NULL END) AS 'city.dst', MAX(CASE WHEN (type = 'latdec.dst') THEN value ELSE NULL END) AS 'latdec.dst', MAX(CASE WHEN (type = 'longdec.dst') THEN value ELSE NULL END) AS 'longdec.dst', MAX(CASE WHEN (type = 'org.dst') THEN value ELSE NULL END) AS 'org.dst', MAX(CASE WHEN (type = 'domain.dst') THEN value ELSE NULL END) AS 'domain.dst', MAX(CASE WHEN (type = 'country.src') THEN value ELSE NULL END) AS 'country.src', MAX(CASE WHEN (type = 'city.src') THEN value ELSE NULL END) AS 'city.src', MAX(CASE WHEN (type = 'latdec.src') THEN value ELSE NULL END) AS 'latdec.src', MAX(CASE WHEN (type = 'longdec.src') THEN value ELSE NULL END) AS 'longdec.src',MAX(CASE WHEN (type = 'service') THEN value ELSE NULL END) AS 'service', MAX(CASE WHEN (type = 'packets') THEN value ELSE NULL END) AS 'packets', MAX(CASE WHEN (type = 'alert.id') THEN value ELSE NULL END) AS 'alert.id', MAX(CASE WHEN (type = 'tcp.flags') THEN value ELSE NULL END) AS 'tcp.flags', MAX(CASE WHEN (type = 'ip.proto') THEN value ELSE NULL END) AS 'ip.proto', MAX(CASE WHEN (type = 'alias.host') THEN value ELSE NULL END) AS 'alias.host', MAX(CASE WHEN (type = 'alias.ip') THEN value ELSE NULL END) AS 'alias.ip', MAX(CASE WHEN (type = 'udp.srcport') THEN value ELSE NULL END) AS 'udp.srcport', MAX(CASE WHEN (type = 'org.src') THEN value ELSE NULL END) AS 'org.src', MAX(CASE WHEN (type = 'domain.src') THEN value ELSE NULL END) AS 'domain.src', MAX(CASE WHEN (type = 'email.src') THEN value ELSE NULL END) AS 'email.src', MAX(CASE WHEN (type = 'ip.srcport') THEN value ELSE NULL END) AS 'ip.srcport', MAX(CASE WHEN (type = 'user.src') THEN value ELSE NULL END) AS 'user.src', MAX(CASE WHEN (type = 'ad.domain.src') THEN value ELSE NULL END) AS 'ad.domain.src',MAX(CASE WHEN (type = 'ad.username.src') THEN value ELSE NULL END) AS 'ad.username.src', MAX(CASE WHEN (type = 'ad.computer.src') THEN value ELSE NULL END) AS 'ad.computer.src', MAX(CASE WHEN (type = 'udp.dstport') THEN value ELSE NULL END) AS 'udp.dstport', MAX(CASE WHEN (type = 'email.dst') THEN value ELSE NULL END) AS 'email.dst', MAX(CASE WHEN (type = 'ip.dstport') THEN value ELSE NULL END) AS 'ip.dstport', MAX(CASE WHEN (type = 'user.dst') THEN value ELSE NULL END) AS 'user.dst', MAX(CASE WHEN (type = 'ad.domain.dst') THEN value ELSE NULL END) AS 'ad.domain.dst', MAX(CASE WHEN (type = 'ad.username.dst') THEN value ELSE NULL END) AS 'ad.username.dst', MAX(CASE WHEN (type = 'ad.computer.dst') THEN value ELSE NULL END) AS 'ad.computer.dst', MAX(CASE WHEN (type = 'attachment') THEN value ELSE NULL END) AS 'attachment', MAX(CASE WHEN (type = 'alert') THEN value ELSE NULL END) AS 'alert' FROM ".$dbtable." GROUP BY `group` ORDER BY `group`") or die ("Error with creating view: ".mysqli_error($con));
+
+		$result = mysqli_query($con, 'select * from `'.$dbview.'` WHERE (`latdec.src` is not null and `longdec.src` is not null) AND (`latdec.dst` is not null and `longdec.dst` is not null)') or die ("Error with select query: ".mysqli_error($con));
 
 	/*
 	*	Convert data from MYSQL back to JSON array
@@ -25,7 +24,7 @@
 
 		$json_response = array();
 
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
 			/* Uncategorized */
 			$row_array['id'] = $row['id'];
@@ -85,6 +84,5 @@
 	*	Close connection
 	*/
 
-		mysql_close($database);
+		mysqli_close($con);
 ?>
-
