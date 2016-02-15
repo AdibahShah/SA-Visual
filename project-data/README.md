@@ -1,7 +1,6 @@
 | Files           | Description                                                   |
 | --------------- | -------------                                                 |
 | RestData.json   | A sample data (demo) to visualize the alerts                  |
-| createview.txt  | Query to create a view from the database table for proper data organization |
 
 | Files           | Description |
 | --------------  | ----------- |
