@@ -50,16 +50,20 @@ As you are about to upload a demo data, you will only have to configure the foll
   `	// Variables to connect to MySQL Database` <br>
   
 * Login Credentials to MySQL Database <br>
-	`$dbhost 	= "localhost";`<br>
-	`$dbusername 	= "root";`<br>
-	`$dbpassword 	= "password";`<br>
+```php
+$dbhost = "localhost";
+$dbusername = "root";
+$dbpassword = "password";
+```
 
 * Database, Table, View Names <br>
 You <b>do not</b> have to manually create database, table and view via phpmyadmin's web console.<br>
 ./phpjobs.sh will do that for you. <br>
-	`$dbname 	= "restapi";`<br>
-	`$dbtable	= "attackdata";`<br>
-	`$dbview 	= "RestView";` <br>
+```php
+$dbname = "restapi";
+$dbtable = "attackdata";
+$dbview = "RestView";
+```
 
 * Next, run the following command: <br>
   `./phpjobs.sh` <br>
@@ -109,50 +113,61 @@ The following lines are <b>required</b> variables to connect to MySQL database. 
 `// Variables to connect to MySQL Database` <br>
   
 * Login Credentials to MySQL Database <br>
-	`$dbhost 	= "localhost";`<br>
-	`$dbusername 	= "root";`<br>
-	`$dbpassword 	= "password";`<br>
+```php
+$dbhost	= "localhost";
+$dbusername = "root";
+$dbpassword = "password";
+```
 
 * Database, Table, View Names <br>
 You <b>do not</b> have to manually create database, table and view via phpmyadmin's web console.<br>
 ./phpjobs.sh will do that for you. <br>
-	`$dbname 	= "restapi";`<br>
-	`$dbtable	= "attackdata";`<br>
-	`$dbview 	= "RestView";` <br>
+```php
+$dbname	= "restapi";
+$dbtable = "attackdata";
+$dbview = "RestView";
+```
 
 The following lines are <b>required</b> variables to connect to RSA Security Analytic Concentrator/Broker. <br>
 
 `// Configurable variables to connect to RSA Security Analytics Concentrator / Broker` <br>
 
 * Login Credentials to RSA Security Analytic Server <br>
-	`$SAUser = “admin”;` <br>
-	`$SAPass = “netwitness”;` <br>
+```php
+$SAUser = “admin”;
+$SAPass = “netwitness”;
+```
 
 * Concentrator / Broker IP Address <br>
-	`$DevIP	= '10.63.215.23';`<br>
+```php
+$DevIP	= '10.63.215.23';
+```
 
 * Concentrator / Broker Port <br>
-	`$DevPort = '50105';`<br>
+```php
+$DevPort = '50105';
+```
 
 `// Configurable variables to control how much data you wish to retrieved` <br>
 
 * Retrieve data from 30 mins ago & sets the time to refresh the visualization <br>
-	`$TimeRange = '1800';`<br>
+```php
+$TimeRange = '1800';
+```
 
 `// Configurable variables to connect to RSA Security Analytics Server` <br>
 
 * RSA Security Analytic IP Address <br>
 ```php
-	`$SAIP		=	'10.63.215.25';`
+	`$SAIP	= '10.63.215.25';`
 ```
 
 * Concentrator / Broker ID <br>
 ```php
-	$DevID		=	'8';
+	$DevID	= '8';
 ```
-```php
-// Configurable variables to reload page
-```
+
+`// Configurable variables to reload page`
 
 * Adds buffer between retrieval of data & page reload
 * Recommended. Retrieving of data can take a few minutes to complete <br>
