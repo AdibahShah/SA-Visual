@@ -251,7 +251,7 @@ $filename = 'http://'.$SAUser.':'.$SAPass.'@'.$DevIP.':'.$DevPort.'/sdk?msg=quer
 	viewer.timeline.zoomTo(start, stop);
 ```
 
-#### Step 3: View Visualization
+#### Step 6: View Visualization
 
 After setting up the configurations, you should be able to view the visualization with data from your own RSA Security Analytic's Concentrator/Broker<br>
 
