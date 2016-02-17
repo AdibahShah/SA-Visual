@@ -55,21 +55,21 @@ As you are about to upload a demo data, you will only have to configure the foll
 	`$dbview 	= "RestView";`
 
   * Next, run the following command: <br>
-  `./phpjobs.sh`
+  `./phpjobs.sh` <br>
     The database, table & view containing the data will be uploaded.
 
 ##### Test
 
   To check if data has been successfully uploaded into MySQL database, do either of the following:
   
-  * [Host] Open a web browser and enter the url as such:
-  `<ip-addressOfVM>/project-data/pass.php`
+  * [Host] Open a web browser and enter the url as such:<br>
+  `<ip-addressOfVM>/project-data/pass.php` <br>
     The page above should contain a JSON data.
   
   OR
 
-  * [Host] Open a web browser and enter the url as such:
-  `<ip-addressOfVM>/phpmyadmin`
+  * [Host] Open a web browser and enter the url as such: <br>
+  `<ip-addressOfVM>/phpmyadmin` <br>
     Search for the database & ensure that both <b>table</b> & <b>view</b> has been created.
 
 #### Step 3: View Visualization
