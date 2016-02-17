@@ -142,18 +142,24 @@ The following lines are <b>required</b> variables to connect to RSA Security Ana
 `// Configurable variables to connect to RSA Security Analytics Server` <br>
 
 * RSA Security Analytic IP Address <br>
-	`$SAIP		=	'10.63.215.25';` <br>
+```php
+	`$SAIP		=	'10.63.215.25';`
+```
 
 * Concentrator / Broker ID <br>
-	`$DevID		=	'8';` <br>
-
-`// Configurable variables to reload page` <br>
+```php
+	$DevID		=	'8';
+```
+```php
+// Configurable variables to reload page
+```
 
 * Adds buffer between retrieval of data & page reload
 * Recommended. Retrieving of data can take a few minutes to complete <br>
-
-	`$addMinutes = '300';`<br>
-	`$reloadTime = $TimeRange + $addMinutes;`<br>
+```php
+$addMinutes = '300';`<br>
+$reloadTime = $TimeRange + $addMinutes;
+```
 
 #### Step 3: Edit connector.php
 
@@ -162,3 +168,14 @@ The following lines are <b>required</b> variables to connect to RSA Security Ana
   * Run the following command: <br>
   `gedit connector.php`
 
+<b>DISABLE Method 1</b> and <b>ENABLE Method 2</b>. Refer below:
+
+```php
+/*
+Method 1: Demo Data (Final Presentation Purpose)
+$filename = 'RestData.json';
+
+Method 2: Data from RSA Security Analytics Concentrator / Broker
+*/
+
+$filename = 'http://'.$SAUser.':'.$SAPass.'@'.$DevIP.':'.$DevPort.'/sdk?msg=query&query=where+time='.$DataWithinTime.'-u&force-content-type=application/json';
