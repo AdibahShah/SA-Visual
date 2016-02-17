@@ -1,7 +1,10 @@
 # Security Analytic Cyber-Attack Visualization
+  
 Security Analytic (SA) Cyber-Attack Visualization is a prototype project for the RSA Security Analytic tool to provide users an <b>alternative view</b> to perform cyber-attack investigations for easier attack interpretations and analyzation, turning multiple rows of complex data into appealing visuals through the use of a <b>3D geographical data visualization</b>.
 
 The prototype is currently <u>under development</u> in a <b>virtual machine</b>, running <b>Centos 6.5 OS with an Apache Web Server installed</b>. Therefore, it is not hosted on any websites. However, should you wish to view the prototype demo, please follow the steps listed under '<b>Prototype Demonstration</b>'.
+
+
 
 ### Visualization Library Used
   1. [Cesium](https://www.cesium.org) - Visualization Envrionment and Functions
@@ -194,3 +197,35 @@ Method 2: Data from RSA Security Analytics Concentrator / Broker
 */
 
 $filename = 'http://'.$SAUser.':'.$SAPass.'@'.$DevIP.':'.$DevPort.'/sdk?msg=query&query=where+time='.$DataWithinTime.'-u&force-content-type=application/json';
+```
+
+#### Step 4: Run ./phpjobs.sh
+
+  * [VM] Open terminal & change directory to /SA-Visual/project-data
+  
+  * Run the following command: <br>
+  `./phpjobs.sh`
+
+##### Test
+
+  To check if data has been successfully uploaded into MySQL database, do either of the following:
+  
+  * [Host] Open a web browser and enter the url as such:<br>
+  `<ip-addressOfVM>/project-data/pass.php` <br>
+
+    The page above should contain a JSON data.
+  
+  OR
+
+  * [Host] Open a web browser and enter the url as such: <br>
+  `<ip-addressOfVM>/phpmyadmin` <br>
+
+    Search for the database & ensure that both <b>table</b> & <b>view</b> has been created.
+    
+#### Step 5: Edit IntelCyberOcular.html
+
+  * [VM] Open terminal & change directory to /SA-Visual/Cesium/Apps
+  
+  * Run the following command: <br>
+  `gedit IntelCyberOcular.html`
+
