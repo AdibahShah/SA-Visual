@@ -46,18 +46,25 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
   `gedit config.php`
 
 As you are about to upload a demo data, you will only have to configure the following:<br>
+
   `	// Variables to connect to MySQL Database` <br>
+  
+* Login Credentials to MySQL Database <br>
 	`$dbhost 	= "localhost";`<br>
 	`$dbusername 	= "root";`<br>
 	`$dbpassword 	= "password";`<br>
+
+* Database, Table, View Names <br>
+You <b>do not</b> have to manually create database, table and view via phpmyadmin's web console.<br>
+./phpjobs.sh will do that for you. <br>
 	`$dbname 	= "restapi";`<br>
 	`$dbtable	= "attackdata";`<br>
-	`$dbview 	= "RestView";`
+	`$dbview 	= "RestView";` <br>
 
-  * Next, run the following command: <br>
+* Next, run the following command: <br>
   `./phpjobs.sh` <br>
 
-    The database, table & view containing the data will be uploaded.
+    The database, table & view containing the data will be created.
 
 ##### Test
 
@@ -99,7 +106,7 @@ Refer to Step 1 under 'Prototype: Demo Data'.
 
 The following lines are <b>required</b> variables to connect to MySQL database. Configure it according to your MySQL settings.<br>
 
-  `	// Variables to connect to MySQL Database` <br>
+`// Variables to connect to MySQL Database` <br>
   
 * Login Credentials to MySQL Database <br>
 	`$dbhost 	= "localhost";`<br>
@@ -115,6 +122,8 @@ You <b>do not</b> have to manually create database, table and view via phpmyadmi
 
 The following lines are <b>required</b> variables to connect to RSA Security Analytic Concentrator/Broker. <br>
 
+`// Configurable variables to connect to RSA Security Analytics Concentrator / Broker` <br>
+
 * Login Credentials to RSA Security Analytic Server <br>
 	`$SAUser		=	“admin”;` <br>
 	`$SAPass		=	“netwitness”;` <br>
@@ -123,7 +132,7 @@ The following lines are <b>required</b> variables to connect to RSA Security Ana
 	`$DevIP		=	'10.63.215.23';`<br>
 
 * Concentrator / Broker Port <br>
-	`$DevPort		=	'50105';` <br>
+	`$DevPort		=	'50105';`<br>
 
 // Configurable variables to control how much data you wish to retrieved
 $TimeRange	=	'1800';
