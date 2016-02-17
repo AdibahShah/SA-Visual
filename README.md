@@ -36,7 +36,7 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
 
   * [Host] Open a web browser and enter the IP Address retrieved from above
   
-  * You should be able to see the visualization environment - Globe, Timeline, Skybox. <b>NOTE: At this point, it does not contain any data </b>
+  * You should be able to see the visualization environment - Globe, Timeline, Skybox. <br><b>NOTE: At this point, it does not contain any data </b>
 
 #### Step 2: Upload demo data
 
@@ -56,6 +56,7 @@ As you are about to upload a demo data, you will only have to configure the foll
 
   * Next, run the following command: <br>
   `./phpjobs.sh` <br>
+
     The database, table & view containing the data will be uploaded.
 
 ##### Test
@@ -64,17 +65,20 @@ As you are about to upload a demo data, you will only have to configure the foll
   
   * [Host] Open a web browser and enter the url as such:<br>
   `<ip-addressOfVM>/project-data/pass.php` <br>
+
     The page above should contain a JSON data.
   
   OR
 
   * [Host] Open a web browser and enter the url as such: <br>
   `<ip-addressOfVM>/phpmyadmin` <br>
+
     Search for the database & ensure that both <b>table</b> & <b>view</b> has been created.
 
 #### Step 3: View Visualization
 
 Once the demo data has been successfully uploaded into the database, you are able to visualize it. To do so, simply proceed to the page with the following url: <br>
   `<ip-addressOfVM>` <br>
+  
   And click onto 'View Visualization' button
 
