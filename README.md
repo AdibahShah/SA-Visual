@@ -107,6 +107,8 @@ The following lines are <b>required</b> variables to connect to MySQL database. 
 	`$dbpassword 	= "password";`<br>
 
 * Database, Table, View Names <br>
+You <b>do not</b> have to manually create database, table and view via phpmyadmin's web console.<br>
+./phpjobs.sh will do that for you. <br>
 	`$dbname 	= "restapi";`<br>
 	`$dbtable	= "attackdata";`<br>
 	`$dbview 	= "RestView";` <br>
