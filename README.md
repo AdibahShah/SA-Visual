@@ -4,7 +4,7 @@ Security Analytic (SA) Cyber-Attack Visualization is a prototype project for the
 
 The prototype is currently <u>under development</u> in a <b>virtual machine</b>, running <b>Centos 6.5 OS with an Apache Web Server installed</b>. Therefore, it is not hosted on any websites. However, should you wish to view the prototype demo, please follow the steps listed under '<b>Prototype Demonstration</b>'.
 
-### Visualization Library Used
+## Visualization Library Used
   1. [Cesium](https://www.cesium.org) - Visualization Envrionment and Functions
   2. [Bing Maps](https://www.bingmapsportal.com/) - Basemap Provider
 
