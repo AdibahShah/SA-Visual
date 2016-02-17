@@ -4,8 +4,6 @@ Security Analytic (SA) Cyber-Attack Visualization is a prototype project for the
 
 The prototype is currently <u>under development</u> in a <b>virtual machine</b>, running <b>Centos 6.5 OS with an Apache Web Server installed</b>. Therefore, it is not hosted on any websites. However, should you wish to view the prototype demo, please follow the steps listed under '<b>Prototype Demonstration</b>'.
 
-
-
 ### Visualization Library Used
   1. [Cesium](https://www.cesium.org) - Visualization Envrionment and Functions
   2. [Bing Maps](https://www.bingmapsportal.com/) - Basemap Provider
@@ -98,7 +96,7 @@ Once the demo data has been successfully uploaded into the database, you are abl
 
 ## Prototype: RSA Security Analytic Concentrator/Broker Data
 
-<b>NOTE:</b> It is a <b>requirement</b> for the data from the concentrator / broker to <b>contain the coordinates of the source (latdec.src, longdec.src) and destination countries (latdec.dst, longdec.dst)</b>. Otherwise, the alert will be <b>omitted</b> from the visualization.
+<b>NOTE:</b> It is a <b>requirement</b> for the data from the concentrator / broker to <b>contain the coordinates of the source (latdec.src, longdec.src) AND destination countries (latdec.dst, longdec.dst)</b>. Otherwise, the alert will be <b>omitted</b> from the visualization.
 
 #### Step 1: Set up Virtual Machine
 
@@ -229,3 +227,35 @@ $filename = 'http://'.$SAUser.':'.$SAPass.'@'.$DevIP.':'.$DevPort.'/sdk?msg=quer
   * Run the following command: <br>
   `gedit IntelCyberOcular.html`
 
+<b>DISABLE 'Demo Timeline Settings'</b> and <b>ENABLE 'Your Timeline Settings'</b>. Refer below:
+
+```Javascript
+/* 
+	DEMO TIMELINE SETTINGS 
+	THIS IS A SETTING FOR THE DEMO DATA - RestData.json
+	To enable it, simply remove the '/*' & '* /' from the codes below and add them to the codes under YOUR TIMELINE SETTINGS
+
+	viewer.clock.startTime = Cesium.JulianDate.fromIso8601("2014-08-29T19:29:00Z");  
+	viewer.clock.currentTime =Cesium.JulianDate.fromIso8601("2014-08-29T19:29:00Z");  
+	viewer.clock.multiplier = 2;
+	viewer.timeline.zoomTo(start, stop);
+				
+	YOUR TIMELINE SETTINGS
+	APPLICABLE IF YOU ARE USING YOUR OWN DATA
+	To enable it, simply remove the '/*' & '* /' from the codes below and add them to the codes under DEMO TIMELINE SETTINGS
+*/
+
+	viewer.clock.startTime = Cesium.JulianDate.fromIso8601(DataWithinTimeISO);  
+	viewer.clock.currentTime =Cesium.JulianDate.fromIso8601(DataWithinTimeISO);  
+	viewer.clock.multiplier = 2;
+	viewer.timeline.zoomTo(start, stop);
+```
+
+#### Step 3: View Visualization
+
+After setting up the configurations, you should be able to view the visualization with data from your own RSA Security Analytic's Concentrator/Broker<br>
+
+* [Host] Open up a web browser and enter the following URL: <br>
+  `<ip-addressOfVM>` <br>
+  
+  And click onto 'View Visualization' button
