@@ -7,7 +7,7 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
   1. [Cesium](https://www.cesium.org) - Visualization Envrionment and Functions
   2. [Bing Maps](https://www.bingmapsportal.com/) - Basemap Provider
 
-### Prototype Demonstration
+### Prototype: Demo Data
 
 #### Step 1: Set up Virtual Machine
 
@@ -82,3 +82,55 @@ Once the demo data has been successfully uploaded into the database, you are abl
   
   And click onto 'View Visualization' button
 
+### Prototype: RSA Security Analytic Concentrator/Broker Data
+
+<b>NOTE:</b> It is a <b>requirement</b> for the data from the concentrator / broker to <b>contain the coordinates of the source (latdec.src, longdec.src) and destination countries (latdec.dst, longdec.dst)</b>. Otherwise, the alert will be <b>omitted</b> from the visualization.
+
+#### Step 1: Set up Virtual Machine
+
+Refer to Step 1 under 'Prototype: Demo Data'.
+
+#### Step 2: Edit config.php
+
+  * [VM] Open terminal & change directory to /SA-Visual/project-data
+  
+  * Run the following command: <br>
+  `gedit config.php`
+
+The following lines are <b>required</b> variables to connect to MySQL database. Configure it according to your MySQL settings.<br>
+
+  `	// Variables to connect to MySQL Database` <br>
+  
+* Login Credentials to MySQL Database <br>
+	`$dbhost 	= "localhost";`<br>
+	`$dbusername 	= "root";`<br>
+	`$dbpassword 	= "password";`<br>
+
+* Database, Table, View Names <br>
+	`$dbname 	= "restapi";`<br>
+	`$dbtable	= "attackdata";`<br>
+	`$dbview 	= "RestView";` <br>
+
+The following lines are <b>required</b> variables to connect to RSA Security Analytic Concentrator/Broker. <br>
+
+* Login Credentials to RSA Security Analytic Server <br>
+	`$SAUser		=	“admin”;` <br>
+	`$SAPass		=	“netwitness”;` <br>
+
+* Concentrator / Broker IP Address <br>
+	`$DevIP		=	'10.63.215.23';`<br>
+
+* Concentrator / Broker Port <br>
+	`$DevPort		=	'50105';` <br>
+
+// Configurable variables to control how much data you wish to retrieved
+$TimeRange	=	'1800';
+
+// Configurable variables to connect to RSA Security Analytics Server
+$SAIP		=	'10.63.215.25';
+
+$DevID		=	'8';
+
+// Configurable variables to reload page
+$addMinutes = '300';
+$reloadTime = $TimeRange + $addMinutes;
