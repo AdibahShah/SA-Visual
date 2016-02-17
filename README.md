@@ -7,7 +7,7 @@ The prototype is currently <u>under development</u> in a <b>virtual machine</b>,
   1. [Cesium](https://www.cesium.org) - Visualization Envrionment and Functions
   2. [Bing Maps](https://www.bingmapsportal.com/) - Basemap Provider
 
-### Prototype: Demo Data
+## Prototype: Demo Data
 
 #### Step 1: Set up Virtual Machine
 
@@ -89,7 +89,7 @@ Once the demo data has been successfully uploaded into the database, you are abl
   
   And click onto 'View Visualization' button
 
-### Prototype: RSA Security Analytic Concentrator/Broker Data
+## Prototype: RSA Security Analytic Concentrator/Broker Data
 
 <b>NOTE:</b> It is a <b>requirement</b> for the data from the concentrator / broker to <b>contain the coordinates of the source (latdec.src, longdec.src) and destination countries (latdec.dst, longdec.dst)</b>. Otherwise, the alert will be <b>omitted</b> from the visualization.
 
