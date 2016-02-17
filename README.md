@@ -154,3 +154,11 @@ The following lines are <b>required</b> variables to connect to RSA Security Ana
 
 	`$addMinutes = '300';`<br>
 	`$reloadTime = $TimeRange + $addMinutes;`<br>
+
+#### Step 3: Edit connector.php
+
+  * [VM] Open terminal & change directory to /SA-Visual/project-data
+  
+  * Run the following command: <br>
+  `gedit connector.php`
+
