@@ -125,23 +125,32 @@ The following lines are <b>required</b> variables to connect to RSA Security Ana
 `// Configurable variables to connect to RSA Security Analytics Concentrator / Broker` <br>
 
 * Login Credentials to RSA Security Analytic Server <br>
-	`$SAUser		=	“admin”;` <br>
-	`$SAPass		=	“netwitness”;` <br>
+	`$SAUser = “admin”;` <br>
+	`$SAPass = “netwitness”;` <br>
 
 * Concentrator / Broker IP Address <br>
-	`$DevIP		=	'10.63.215.23';`<br>
+	`$DevIP	= '10.63.215.23';`<br>
 
 * Concentrator / Broker Port <br>
-	`$DevPort		=	'50105';`<br>
+	`$DevPort = '50105';`<br>
 
-// Configurable variables to control how much data you wish to retrieved
-$TimeRange	=	'1800';
+`// Configurable variables to control how much data you wish to retrieved` <br>
 
-// Configurable variables to connect to RSA Security Analytics Server
-$SAIP		=	'10.63.215.25';
+* Retrieve data from 30 mins ago & sets the time to refresh the visualization <br>
+	`$TimeRange = '1800';`<br>
 
-$DevID		=	'8';
+`// Configurable variables to connect to RSA Security Analytics Server` <br>
 
-// Configurable variables to reload page
-$addMinutes = '300';
-$reloadTime = $TimeRange + $addMinutes;
+* RSA Security Analytic IP Address <br>
+	`$SAIP		=	'10.63.215.25';` <br>
+
+* Concentrator / Broker ID <br>
+	`$DevID		=	'8';` <br>
+
+`// Configurable variables to reload page` <br>
+
+* Adds buffer between retrieval of data & page reload
+* Recommended. Retrieving of data can take a few minutes to complete <br>
+
+	`$addMinutes = '300';`<br>
+	`$reloadTime = $TimeRange + $addMinutes;`<br>
